@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harta_karun/menu.dart';
+import 'package:harta_karun/screens/menu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Harta Karun',
       theme: ThemeData(
         // This is the theme of your application.
         //
