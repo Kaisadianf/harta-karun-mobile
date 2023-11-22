@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:harta_karun/models/models.dart';
 import 'package:harta_karun/widgets/left_drawer.dart';
+import 'package:harta_karun/screens/item_detail.dart';
 
 class ItemPage extends StatefulWidget {
     const ItemPage({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ Widget build(BuildContext context) {
         appBar: AppBar(
           title: const Center(
             child: Text(
-              'Item',
+              'Daftar Item',
             ),
           ),
           backgroundColor: Color.fromARGB(255, 100, 49, 6),
@@ -66,16 +67,24 @@ Widget build(BuildContext context) {
                     );
                 } else {
                     return ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (_, index) => Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (_, index) => InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ItemDetailPage(item: snapshot.data![index]),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                                Text(
+                              Text(
                                 "${snapshot.data![index].fields.name}",
                                 style: const TextStyle(
                                     fontSize: 18.0,
@@ -87,9 +96,11 @@ Widget build(BuildContext context) {
                                 const SizedBox(height: 10),
                                 Text(
                                     "${snapshot.data![index].fields.description}")
-                            ],
+                              ],
                             ),
-                        ));
+                          ),
+                        ),
+                      );
                     }
                 }
             }));

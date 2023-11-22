@@ -495,6 +495,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:harta_karun/models/models.dart';
 import 'package:harta_karun/widgets/left_drawer.dart';
+import 'package:harta_karun/screens/item_detail.dart';
 
 class ItemPage extends StatefulWidget {
     const ItemPage({Key? key}) : super(key: key);
@@ -532,7 +533,7 @@ Widget build(BuildContext context) {
         appBar: AppBar(
           title: const Center(
             child: Text(
-              'Item',
+              'Daftar Item',
             ),
           ),
           backgroundColor: Color.fromARGB(255, 100, 49, 6),
@@ -558,16 +559,24 @@ Widget build(BuildContext context) {
                     );
                 } else {
                     return ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (_, index) => Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (_, index) => InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ItemDetailPage(item: snapshot.data![index]),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                                Text(
+                              Text(
                                 "${snapshot.data![index].fields.name}",
                                 style: const TextStyle(
                                     fontSize: 18.0,
@@ -579,16 +588,56 @@ Widget build(BuildContext context) {
                                 const SizedBox(height: 10),
                                 Text(
                                     "${snapshot.data![index].fields.description}")
-                            ],
+                              ],
                             ),
-                        ));
+                          ),
+                        ),
+                      );
                     }
                 }
             }));
     }
 }
 ```
-- membuat file `login.dart` dalam folder screens
+- membuat `item_detail.dart` dalam folder screens
+```dart
+import 'package:flutter/material.dart';
+import 'package:harta_karun/models/models.dart';
+
+class ItemDetailPage extends StatelessWidget {
+  final Item item;
+
+  const ItemDetailPage({Key? key, required this.item}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(item.fields.name),
+        backgroundColor: Color.fromARGB(255, 100, 49, 6),
+        foregroundColor: Colors.white,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Item Details',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text('Amount: ${item.fields.amount}'),
+            SizedBox(height: 10),
+            Text('Description: ${item.fields.description}'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+-membuat file `login.dart` dalam folder screens
 ```dart
 import 'package:harta_karun/screens/menu.dart';
 import 'package:flutter/material.dart';
